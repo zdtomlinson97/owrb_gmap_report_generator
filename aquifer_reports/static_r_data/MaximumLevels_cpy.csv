@@ -1,0 +1,28 @@
+CharacteristicName,ConLev,MaxLev,ConResultUnit,Health,HealthValue,HealthUnit
+Fluoride,Primary,4,mg/L,,,
+Nitrate and nitrite as N,Primary,10,mg/L,,,
+Antimony,Primary,6,µg/L,,,
+Arsenic,Primary,10,µg/L,,,
+Barium,Primary,2000,µg/L,,,
+Beryllium,Primary,4,µg/L,,,
+Cadmium,Primary,5,µg/L,,,
+Chromium,Primary,100,µg/L,,,
+Copper,Primary,1300,µg/L,,,
+Lead,Primary,15,µg/L,,,
+Mercury,Primary,2,µg/L,,,
+Selenium,Primary,50,µg/L,,,
+Uranium,Primary,30,µg/L,,,
+Radium-226&228(Combined),Primary,5,pCi/L,,,
+Total dissolved solids,Secondary,500,mg/L,,,
+Chloride,Secondary,250,mg/L,,,
+Sulfate,Secondary,250,mg/L,,,
+Aluminum,Secondary,200,µg/L,,,
+Iron,Secondary,300,µg/L,,,
+Manganese,Secondary,50,µg/L,Health,300,µg/L
+Silver,Secondary,100,µg/L,Health,100,µg/L
+Zinc,Secondary,5000,µg/L,Health,200,µg/L
+Boron,,,,Health,6000,µg/L
+Molybdenum,,,,Health,40,µg/L
+Nickel,,,,Health,100,µg/L
+Sodium,,,,Health,20,mg/L
+Ammonia as N,,,,Health,30,mg/L

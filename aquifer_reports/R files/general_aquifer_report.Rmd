@@ -1,0 +1,213 @@
+---
+output: html_document
+---
+
+<style>
+body {
+  text-align: justify;
+  font_size: 100px;
+  font_family: sans;
+}
+</style>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+<header>
+```{r out.width = '100%' } 
+knitr::include_graphics("owrb_header.png")
+```
+</header>
+
+# `r current_aquifer` aquifer report {.tabset}
+
+## Water use and general info
+
+```{r out.width = '100%' } 
+if(length(img_file) != 0){
+  knitr::include_graphics(img_file)
+}
+```
+
+`r aqfr_use_comments`
+
+```{r}
+use_plot
+```
+
+## Water level trends
+
+To view and download continuous water level data for the `r current_aquifer` aquifer, go to the web page below:
+
+
+INSERT R SHINY APP LINK ONCE IT IS QA'd
+
+
+DISCLAIMER: THIS IS ONE POSSIBLE TREND CALCULATION METHOD BUT REQUIRES MORE COMMUNICATION/DISCUSSION BEFORE IT IS MADE PUBLIC
+
+
+The general change in water level for all continuous recorders are listed below, in ft/yr. These were calculated by taking the median water level for each month and using the seasonal Mann-Kendall's test to determine the trend after filtering out seasonal influence.
+
+```{r}
+trend_slopes
+```
+
+`r aqfr_trend_comments`
+
+## Find or download well water levels
+
+```{r, warning = F, comment = F}
+data_to_share = subset(GW_disc_wls_download, WatershedManagementUnit == current_aquifer) %>% 
+  select("CountyName","MonitoringLocationIdentifier","StartDate", "ResultValue")
+
+first_site = data_to_share$MonitoringLocationIdentifier[1]
+
+data_to_share$ResultValue = as.numeric(data_to_share$ResultValue)
+data_to_share$StartDate = ymd(data_to_share$StartDate)
+
+shared_df = SharedData$new(data_to_share, ~MonitoringLocationIdentifier)
+  
+bscols(widths = c(12,12,12),
+list(
+  filter_select("site_no", "Well ID:", shared_df, ~ MonitoringLocationIdentifier, 
+      multiple = TRUE)),
+list(datatable(shared_df,rownames = NULL, 
+  colnames = c("County","Well ID", "Date", "Water level, ft below surface"),
+  extensions = 'Buttons',
+        options = list(paging = TRUE,
+        scrollX=TRUE, 
+        searching = TRUE,
+        ordering = TRUE,
+        dom = 'Bfrtip',
+        buttons = c('copy', 'csv', 'excel')
+  ))),
+list(
+  plot_ly(data = shared_df, x = ~StartDate, y = ~ResultValue, type = 'scatter', 
+               mode = 'lines+markers', color = ~ MonitoringLocationIdentifier)%>% 
+    layout(yaxis = list(autorange = "reversed", title = "Groundwater level, in ft below surface"), 
+           xaxis = list(title = "Date"))
+  )
+)
+
+```
+
+
+```{r}
+# Site-by-site trends
+well_change = function(site_wls){
+  if(nrow(site_wls) >= 2){
+    site_lm = lm(ResultValue~ActivityStartDate, data = site_wls)
+    year_10_trend = site_lm[["coefficients"]][["ActivityStartDate"]] * -365
+    return_value = year_10_trend
+  } else return_value = NA
+  return(return_value)
+}
+# Make a data frame to house the trends
+#wells = unique(wl_historic$WellID)
+#yearly_change_ft = rep(NA, length(wells))
+#site_changes = as.data.frame(cbind(wells, yearly_change_ft))
+
+#iterate through sites
+#for(i in 1:nrow(site_changes)){
+#  site_wls = subset(wl_historic, WellID == site_changes$wells[i])
+#  site_changes$yearly_change_ft[i] = well_change(site_wls)
+#}
+
+#yearly_10_trend_sites = round(median(na.omit(site_changes$yearly_change_ft)),3)
+
+#med_depth = median(wl_historic$ResultValue)
+#min_depth = min(wl_historic$ResultValue)
+#max_depth = max(wl_historic$ResultValue)
+```
+
+## EPA-regulated contaminants
+
+### Primary Maximum Contaminant Levels
+  
+The EPA has established National Primary Drinking Water Regulations, called Maximum Contaminant Levels (MCL) to protect the public against consumption of drinking water contaminants that present a risk to **human health**. These are shown along with the aquifer statistics in **Table 1** below:     
+  
+**Table 1:** Aquifer statistics and EPA Primary MCL values. Green result values with down arrows indicate that aquifer median concentrations are below the MCL. Red values with up arrows indicate that aquifer median results are above the MCL. A "<" symbol indicates the result value is below the laboratory reporting limit. Median* = estimated aquifer-wide median using bootstrapping, a robust statistical method; μg/L = micrograms per liter (1 g/L = 1,000,000 μg/L); mg/L= milligrams per liter (1 g/L = 1,000 mg/L). 
+
+
+```{r, Table1, echo=F, warning=F, out.width='100%'} 
+knitr::include_graphics(tbl1_file_name)
+```
+
+`r aqfr_tbl1_comments`
+
+### Secondary Maximum Contaminant Levels
+  
+The EPA has established non-mandatory National Secondary Drinking Water Regulations, called Secondary Maximum Contaminant Levels (SMCL), to assist public water systems in managing their drinking water for **aesthetic** considerations such as taste, color, and odor. These contaminants are **NOT** considered to present a risk to human health at the SMCL. The SMCLs and aquifer statistics are in **Table 2** below:
+  
+**Table 2:** Analytical results and EPA Secondary SMCL values. Green result values with down arrows indicate results are below the SMCL. Red values with up arrows indicate results are above the SMCL. A "<" symbol indicates the result value is below the laboratory reporting limit.
+
+```{r, Table2, echo=F, warning=F, out.width='100%'} 
+knitr::include_graphics(tbl2_file_name)
+```
+
+`r aqfr_tbl2_comments`
+
+***
+
+### EPA Health Advisories
+  
+The EPA has issued additional **health advisories** for some parameters in drinking water. These health advisory values and the aquifer statistics are shown in **Table 3** below:
+  
+**Table 3:** Analytical results and EPA Health Advisory values. Green result values with down arrows indicate median concentrations below the Health Advisory. Red values with up arrows indicate median concentrations that  are above the Health Advisory. A "<" symbol indicates the result value is below the laboratory reporting limit. 
+
+```{r, Table3, echo=F, warning=F, out.width='100%'} 
+knitr::include_graphics(tbl3_file_name)
+```
+
+`r aqfr_tbl3_comments`
+
+## General Chemistry
+
+```{r genchem}
+plotly_pip_web
+```
+
+`r aqfr_piper_comments`
+
+## Find or download geochemical data
+
+Click the link below to download all water chemistry data for the `r current_aquifer` aquifer.
+
+```{r} 
+xfun::embed_file("aquifer_chem_user_download.csv", name = "aquifer_chem_user_download", text = 
+    "Download aquifer chem data")
+```
+
+
+You can also select results from the most recent sample for each individual site with the table below:
+
+
+```{r}
+GW_chem_tbl$ResultValue = paste(GW_chem_tbl$DetectionCondition, GW_chem_tbl$ResultValue)
+
+shared_df = SharedData$new(GW_chem_tbl, ~ WellID)
+
+filter_select("site_no", "Well ID:", shared_df, ~ WellID, 
+      multiple = TRUE)
+
+datatable(shared_df, rownames = NULL,  extensions = 'Buttons',
+        options = list(paging = TRUE,
+        scrollX=TRUE, 
+        searching = TRUE,
+        ordering = TRUE,
+        dom = 'Bfrtip',
+        buttons = c('copy', 'csv', 'excel'),
+        columnDefs = list(list(visible=FALSE, targets=c(3,6)))
+  ))
+```
+
+#
+
+`r citation`
+
+<footer>
+```{r out.width = '100%' } 
+knitr::include_graphics("owrb_footer.png")
+```
+</footer>

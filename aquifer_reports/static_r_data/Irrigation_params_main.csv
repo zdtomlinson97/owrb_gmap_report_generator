@@ -1,0 +1,11 @@
+﻿Parameter,CharacteristicName
+Salinity,Electrical Conductivity (EC)
+Salinity,Total dissolved solids
+Infiltration,SAR
+Infiltration,Electrical Conductivity (EC)
+Alkalinity,Bicarbonate
+Toxicity,Chloride
+Toxicity,SAR
+Toxicity,Sodium
+Toxicity,Boron
+pH,pH

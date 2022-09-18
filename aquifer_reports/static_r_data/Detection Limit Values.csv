@@ -1,0 +1,60 @@
+ID,CharacteristicName,DetectionLimitValue1
+1,"Alkalinity, Phenolphthalein (total hydroxide+1/2 carbonate)",NA
+2,"Alkalinity, total",20
+3,Aluminum,50
+4,Ammonia as N,0.1
+5,Antimony,1
+6,Arsenic,1
+7,Barium,1
+8,Barometric pressure,NA
+9,Beryllium,1
+10,Bicarbonate,20
+11,Boron,20
+12,Bromide,0.1
+13,Cadmium,1
+14,Calcium,0.5
+15,Chloride,3
+16,Chromium,1
+17,Cloud cover,NA
+18,Cobalt,1
+19,Copper,1
+20,"Cut, Water Level Measurement",NA
+21,"Depth, from ground surface to well water level",0.03
+22,Dissolved oxygen (DO),0
+23,Electrical Conductivity (EC),0
+24,"Flow Rate, Sampling",NA
+25,"Flow Rate, Stabilization",NA
+26,Fluoride,0.1
+27,Groundwater Well Site Status,NA
+28,"Hold, Water Level Measurement",NA
+29,Iron,20
+30,Lead,1
+31,Magnesium,0.5
+32,Manganese,1
+33,Molybdenum,1
+34,Nickel,1
+35,Nitrate and nitrite as N,0.1
+36,Oxidation reduction potential (ORP),0
+37,pH,0
+38,Phosphorus,0.01
+39,Potassium,0.5
+40,"Precipitation, Type",NA
+41,SAR,0
+42,Selenium,1
+43,Silicon,0.05
+44,Silver,1
+45,Sodium,0.5
+46,Sonde Stabilization,NA
+47,Specific conductance,0
+48,Sulfate,0.5
+49,"Temperature, air",NA
+50,"Temperature, water",0
+51,Total dissolved solids,10
+52,Total hardness,10
+53,Uranium,1
+54,Vanadium,1
+55,"Water Level, Can it be measured?",NA
+56,Wind direction (cardinal),NA
+57,Wind velocity,NA
+58,WL Site Status,NA
+59,Zinc,5
